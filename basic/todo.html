@@ -181,7 +181,7 @@
               {{ item.title }}
             </label>
           </div>
-          <button type="button" class="close ml-auto" @click="removeTodo(key)" aria-label="Close">
+          <button type="button" class="close ml-auto" @click="removeTodo(item )" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -196,8 +196,8 @@
       </li> -->
     </ul>
     <div class="card-footer d-flex justify-content-between">
-      <span>還有 3 筆任務未完成</span>
-      <a href="#">清除所有任務</a>
+      <span>還有{{ unTodo }}筆任務未完成</span>
+      <a href="#" @click.prevent="removeAll">清除所有任務</a>
     </div>
   </div>
 </div>
@@ -232,9 +232,20 @@ var app = new Vue({
       });
       this.newTodo = '';
     },
-    removeTodo: function(key){
+    removeTodo: function(todo){
+      // var newIndex = '';
+      // var vm = this;
+      // vm.todos.forEach(function(item, key){
+      //   if (todo.id === item.id){
+      //     newIndex = key
+      //   }
+      // });
+      var vm = this;
+      var newIndex = vm.todos.findIndex(function (item, key){
+        return todo.id === item.id;
+      })
       //(位置, 幾筆)
-      this.todos.splice(key, 1)
+      this.todos.splice(newIndex, 1)
     },
     editTodo: function(item){
       console.log(item)
@@ -248,6 +259,9 @@ var app = new Vue({
       item.title = this.cacheTitle;
       this.cacheTitle = '';
       this.cacheTodo = {};
+    },
+    removeAll: function(){
+      this.todos = {};
     }
   },
   computed:{
@@ -271,7 +285,14 @@ var app = new Vue({
          })
          return newTodos;
        }
-     } 
+     },
+     unTodo: function(){
+      var activeTodos = this.todos.filter(function(item){
+      return !item.completed
+    })
+    return activeTodos.length
+  }
+
   }
 });
 </script>
