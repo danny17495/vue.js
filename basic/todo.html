@@ -196,7 +196,7 @@
       </li> -->
     </ul>
     <div class="card-footer d-flex justify-content-between">
-      <span>還有{{ unTodo }}筆任務未完成</span>
+      <span>還有{{ unTodo.length }}筆任務未完成</span>
       <a href="#" @click.prevent="removeAll">清除所有任務</a>
     </div>
   </div>
@@ -261,7 +261,7 @@ var app = new Vue({
       this.cacheTodo = {};
     },
     removeAll: function(){
-      this.todos = {};
+      this.todos = [];
     }
   },
   computed:{
@@ -286,13 +286,9 @@ var app = new Vue({
          return newTodos;
        }
      },
-     unTodo: function(){
-      var activeTodos = this.todos.filter(function(item){
-      return !item.completed
-    })
-    return activeTodos.length
-  }
-
+     unTodo:function(){
+       return this.todos.filter(todo => !todo.completed)
+    }
   }
 });
 </script>
