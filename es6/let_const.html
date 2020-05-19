@@ -106,26 +106,29 @@
 <script>
 // #1
 // 修改 var -> let
-var mom = '老媽';
-(function () {
-  console.log(mom);
-})();
+// let mom = '老媽';
+// (function () {
+//   console.log(mom);
+// })();
 
 // #2
 // 修改 var -> let
+//var 作用域 function scope
+//let 作用域 block
 // function varMing () {
-//   var ming = '小明';
+//   let ming = '小明';
 //   if (true) {
-//     var ming = '杰哥';  
+//     let ming = '杰哥';  
 //     // 這裡的 ming 依然是外層的小明，所以小明即將被取代
+//     console.log(ming);// '杰哥'
 //   }
-//   console.log(ming);  // '杰哥'
+//   console.log(ming);  // '小明'
 // }
-
+// varMing();
 
 // #3
 // 修改 var -> let
-// for (var i = 0; i < 10; i++) {
+// for (let i = 0; i < 10; i++) {
 //   console.log(i);
 //   setTimeout(function () {
 //     console.log('這執行第' + i + '次');
@@ -133,7 +136,8 @@ var mom = '老媽';
 // }
 
 // #4
-// const
+// const //無法重新賦值
+
 // const ming = '鐵錚錚男子漢';
 
 // #5
@@ -144,15 +148,25 @@ var mom = '老媽';
 //   sister: '小橙'
 // };
 // family.father = '爸爸';
-
+// console.log(family);
+// family = {} ; //會報錯
 // #6
 // 額外問題，不使用 let，上述答案如何解答
-// for (var i = 0; i < 10; i++) {
-//   console.log(i);
-//   setTimeout(function () {
-//     console.log('這執行第' + i + '次');
-//   }, 10);
-// }
+for (var i = 0; i < 10; i++) {
+
+console.log(i);
+
+(function(i){
+
+  setTimeout(function () {
+
+    console.log('這執行第' + i + '次');
+
+  }, 10);
+
+})(i)
+
+}
 </script> 
         </div>
       </div>
