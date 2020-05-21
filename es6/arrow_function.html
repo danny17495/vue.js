@@ -114,38 +114,46 @@
 
 // # 沒有 arguments 參數
 // 將以下改寫成 Arrow Function，並觀察差異
-const updateEasyCard = (...arg)=> {
-  let cash = 0;
-  console.log(arg); // arguments is not defined
-}
-updateEasyCard(10, 50, 100, 50, 5, 1, 1, 1, 500);
+// const updateEasyCard = (...arg)=> {
+//   let cash = 0;
+//   console.log(arg); // arguments is not defined
+// }
+// updateEasyCard(10, 50, 100, 50, 5, 1, 1, 1, 500);
 
 
-// # This 綁定的差異
-var name = '全域阿婆'
-var auntie = {
-  name: '漂亮阿姨',
-  callName: function () { 
-    console.log('1', this.name); // 1 漂亮阿姨
-    setTimeout(function () {
-      console.log('2', this.name); // 2 漂亮阿姨
-      console.log('3', this); // 3 auntie 這個物件
-    }, 10);
-  },
-}
-auntie.callName();
-
-// # 善用的方式
-// 請將內層的 console.log 能夠指向 auntie 這個物件
+// // # This 綁定的差異
+// var name = '全域阿婆'
 // var auntie = {
 //   name: '漂亮阿姨',
-//   callName () { 
+//   callName: function () { 
+//     console.log('1', this.name); // 1 漂亮阿姨
 //     setTimeout(function () {
-//       console.log(this);
+//       console.log('2', this.name); // 2 漂亮阿姨
+//       console.log('3', this); // 3 auntie 這個物件
 //     }, 10);
-//   }
+//   },
+//   // callName2: () => { 
+//   //   console.log('1 arrow', this.name); // 1 漂亮阿姨
+//   //   setTimeout(() => {
+//   //     console.log('2 arrow', this.name); // 2 漂亮阿姨
+//   //     console.log('3 arrow', this); // 3 auntie 這個物件
+//   //   }, 10);
+//   // },
 // }
 // auntie.callName();
+// auntie.callName2();
+// # 善用的方式
+// 請將內層的 console.log 能夠指向 auntie 這個物件
+var auntie = {
+  name: '漂亮阿姨',
+  callName () { 
+    var vm = this;
+    setTimeout(() => {
+      console.log(vm, vm.name);
+    }, 10);
+  }
+}
+auntie.callName();
 </script> 
         </div>
       </div>
