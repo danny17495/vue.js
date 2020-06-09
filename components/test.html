@@ -124,7 +124,6 @@
     <li>將內層資料透過 emit 傳遞到外層 (作為另一個關注城市的呈現)</li>
     <li>依據不同污染呈現不同色彩</li>
     <li>加分題：透過 localStorage 儲存上次關注的城市</li>
-
   </ol>
 </div>
 
@@ -142,23 +141,22 @@
         </div>
         <div class="card-body">
           <ul class="list-unstyled">
-            <li>AQI 指數: 54</li>
+            <li>AQI 指數: 54</li> 
             <li>PM2.5: 8</li>
-            <li>說明: 普通</li>0
+            <li>說明: 普通</li>
           </ul>
           2018-05-20 16:00
         </div>
       </div> -->
       <card v-for="(item, index) in siteData" :data="item" :key="index" @event="siteNameStar">
-        <template slot="icon">
-          <i class="fas fa-star" ></i>
-        </template>
+          <template slot="icon">
+              <i class="fas fa-star"></i>
+          </template>  
       </card>
     </div>
   </div>
   
   <hr>
-  
   <div class="card-columns">
     <!-- <div class="card status-aqi2">
       <div class="card-header">苗栗縣 - 三義
@@ -178,88 +176,89 @@
 </div>
 
 <script>
-// API 來源
-// https://opendata.epa.gov.tw/Data/Contents/AQI/
-Vue.component('card',{
-  props:['data'],
-  template:`
-    <div class="card" :class="statusColor">
-      <div class="card-header">{{data.County}}-{{data.SiteName}}
-        <a href="#" class="float-right" @click.prevent="changeStar">
-        <slot name = "icon">
-          <i class="far fa-star" ></i>
-        </slot>
-        </a>
-      </div>
-      <div class="card-body">
-        <ul class="list-unstyled">
-          <li>AQI 指數: {{data.AQI}}</li>
-          <li>PM2.5: {{data['PM2.5']}}</li>
-          <li>說明: {{data.Status}}</li>
-        </ul>
-      {{data.PublishTime}}
-      </div>
-    </div>`,
-  computed:{
-    statusColor:function(){
-      switch(this.data.Status){
-        case '良好': {
-          return'';
-          break;
+    // API 來源
+    // https://opendata.epa.gov.tw/Data/Contents/AQI/
+    Vue.component('card',{
+        props:['data'],
+        template:`
+        <div class="card" :class="statusColor">
+            <div class="card-header">{{ data.County }}-{{ data.SiteName }}
+                <a href="#" class="float-right" @click.prevent="favorite">
+                    <slot name="icon">
+                        <i class="far fa-star"></i>
+                    </slot>
+                </a>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li>AQI 指數: {{ data.AQI }}</li>
+                    <li>PM2.5: {{ data['PM2.5'] }}</li>
+                    <li>說明: {{ data.Status }}</li>
+                </ul>
+            {{ data.PublishTime }}
+            </div> 
+        </div>
+        `,
+        computed:{
+            statusColor:function() {
+                switch(this.data.Status){
+                    case '良好':{
+                        return '';
+                        break;
+                    }
+                    case '普通':{
+                        return 'status-aqi2';
+                        break;
+                    }
+                    case '對敏感族群不健康':{
+                        return 'status-aqi3';
+                        break;
+                    }
+                    case '對所有族群不健康':{
+                        return 'status-aqi4';
+                        break;
+                    }
+                    case '非常不健康':{
+                        return 'status-aqi5';
+                        break;
+                    }
+                    case '危害':{
+                        return 'status-aqi6';
+                        break;
+                    }
+                }
+            }
+        },
+        methods:{
+            favorite:function() {
+                this.$emit('event', this.data.SiteName);
+            }
         }
-        case '普通': {
-          return 'status-aqi2';
-          break;
-        }
-        case '對敏感族群不健康': {
-          return 'status-aqi3';
-          break;
-        }
-        case '對所有族群不健康': {
-          return 'status-aqi4';
-          break;
-        }
-        case '非常不健康': {
-          return 'status-aqi5';
-          break;
-        }
-        case '危害': {
-          return 'status-aqi6';
-          break;
-        }
-      }
-    },
-  },
-  methods:{
-    changeStar:function(){
-      this.$emit('event',this.data.SiteName);
-    }
-  }
-})
+    })
 var app = new Vue({
   el: '#app',
   data: {
     data: [],
     location: [],
-    stared:JSON.parse(localStorage.getItem('stared')) || [],
+    stared: [],
     filter: '',
   },
   // 請在此撰寫 JavaScript
   methods: {
-    getData:function() {
+    getData() {
       const vm = this;
       const api = 'http://opendata2.epa.gov.tw/AQI.json';
+
       // 使用 jQuery ajax
       $.get(api).then(function( response ) {
         vm.data = response;
-        vm.data.forEach(function(item,index){
+        vm.data.forEach(function(item, index) {
           vm.location.push(item.County);
         });
-        vm.location = vm.location.filter(function(item,index,arr){
-          return arr.indexOf(item) === index;
+        vm.location = vm.location.filter(function(item, index, arr) {
+          return arr.indexOf(item) === indexl
         })
         console.log(response)
-        
       });
     },
     siteNameStar:function(SiteName){
@@ -305,7 +304,6 @@ var app = new Vue({
     this.getData();
   },
 });
-
 </script>
 <!-- 
 狀態對應表
