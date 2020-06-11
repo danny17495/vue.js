@@ -256,7 +256,7 @@ var app = new Vue({
           vm.location.push(item.County);
         });
         vm.location = vm.location.filter(function(item, index, arr) {
-          return arr.indexOf(item) === indexl
+          return arr.indexOf(item) === index
         })
         console.log(response)
       });
